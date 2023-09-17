@@ -34,6 +34,13 @@ async function lightStatus() {
   }
 }
 
+document.querySelector("#statusButton").addEventListener("click", async () => {
+  const status = await window.TPLINK.TPLightStatus();
+  const brigthness = status.light_state.brightness;
+  console.log(brigthness);
+  document.querySelector("#switchSlider").value = brigthness;
+});
+
 async function switchLightOff() {
   console.log("light off, ", window.TPLINK.TPLightOff());
 }
