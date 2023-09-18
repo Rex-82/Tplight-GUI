@@ -8,19 +8,19 @@
 const { contextBridge } = require("electron");
 const TPLSmartDevice = require("tplink-lightbulb");
 
-const {resolve} = require("path")
-const {config} = require("dotenv");
+const { resolve } = require("path");
+const { config } = require("dotenv");
 config({ path: resolve(__dirname, "..", ".env") });
 
 
 contextBridge.exposeInMainWorld("TPLINK", {
-  TPLightOn: () => {
+  TPLightOn: (brightness) => {
     const light = new TPLSmartDevice(process.env.LIGHT_IP);
-    
+
     light
-      .power(true, 500)
+      .power(true, 500, { brightness: brightness })
       .then((status) => {
-        console.log("status: ", status);
+        // console.log("status: ", status);
       })
       .catch((err) => console.error(err));
   },
@@ -30,7 +30,7 @@ contextBridge.exposeInMainWorld("TPLINK", {
     light
       .power(false, 500)
       .then((status) => {
-        console.log(status);
+        // console.log("status: ", status);
       })
       .catch((err) => console.error(err));
   },
@@ -41,6 +41,7 @@ contextBridge.exposeInMainWorld("TPLINK", {
       light
         .info()
         .then((info) => {
+          console.log("info: ", info);
           resolve(info);
         })
         .catch((error) => {
