@@ -8,36 +8,41 @@
       content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
     />
     <link href="../dist/style.css" rel="stylesheet" />
-    <title>Hello World!</title>
   </head>
   <body class="bg-gray-900">
-
-    <button type="button" class="text-sm text-gray-500 mr-3 dark:text-gray-400" id="statusButton">Status</button>
+    <button
+      type="button"
+      class="text-sm text-gray-500 mr-3 dark:text-gray-400"
+      id="statusButton"
+    >
+      Status
+    </button>
 
     <div class="flex items-center" style="padding: 1rem">
       <label class="text-sm text-gray-500 mr-3 dark:text-gray-400">Off</label>
       <input
         type="checkbox"
         id="switchOnOff"
-        class="relative shrink-0 w-[3.25rem] h-7 bg-gray-100 checked:bg-none checked:bg-blue-600 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 border border-transparent ring-1 ring-transparent focus:border-blue-600 focus:ring-blue-600 ring-offset-white focus:outline-none appearance-none dark:bg-gray-700 dark:checked:bg-blue-600 dark:focus:ring-offset-gray-800 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:shadow before:rounded-full before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200"
+        class="relative shrink-0 w-[3.25rem] h-7 bg-gray-100 checked:bg-none checked:bg-blue-600 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 ring-1 ring-transparent focus:border-blue-600 focus:ring-blue-600 ring-offset-white focus:outline-none appearance-none dark:bg-gray-700 dark:checked:bg-blue-600 dark:focus:ring-offset-gray-800 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:shadow before:rounded-full before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200"
       />
       <label class="text-sm text-gray-500 ml-3 dark:text-gray-400">On</label>
     </div>
 
-    <label
-      for="switchSlider"
-      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-      >Min-max range</label
-    >
     <input
       id="switchSlider"
       type="range"
       min="0"
       max="100"
-      value= "0"
-      class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+      step="5"
+      value="0"
+      class="cursor-pointer inline align-middle"
     />
-
+    <label
+      for="switchSlider"
+      vertical-align="middle"
+      display="inline-block"
+      margin-bottom="1em"
+      ><p id="SliderValue" class="inline align-middle text-sm text-gray-500 ml-3 dark:text-gray-400" type="text">""</p></label>
     <!-- You can also require other files to run in this process -->
     <script defer src="renderer.js"></script>
   </body>
