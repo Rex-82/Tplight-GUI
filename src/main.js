@@ -7,10 +7,15 @@ try {
 } catch (_) {}
 
 function createWindow() {
+  
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    title:"TP Light control panel",
+    alwaysOnTop: true,
+    frame: true,
+    autoHideMenuBar: true,
+    width: 600,
+    height: 400,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
