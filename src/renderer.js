@@ -7,17 +7,29 @@
  */
 
 const switchOnOff = document.getElementById("switchOnOff");
-console.log(switchOnOff);
+// console.log(switchOnOff);
 
 const cb = document.querySelector("#switchOnOff");
-console.log("was: ", cb.checked);
+// console.log("was: ", cb.checked);
 
-document.querySelector("#switchOnOff").addEventListener("click", () => {
-  console.log("is: ", cb.checked);
+document.querySelector("#switchOnOff").addEventListener("click", async () => {
+  // console.log("is: ", cb.checked);
+  cb.disabled = true;
+  setTimeout((cb.disabled = false), 2000);
+
+  const status = await window.TPLINK.TPLightStatus();
+  const onoff = status.light_state.on_off;
+  // console.log("status1: ",status.light_state.on_off)
   if (cb.checked) {
-    switchLightOn();
+    if (!onoff) {
+      await switchLightOn(status.light_state.brightness);
+      cb.checked = true;
+    } else cb.checked = false;
   } else {
-    switchLightOff();
+    if (onoff) {
+      await switchLightOff();
+      cb.checked = false;
+    } else cb.checked = true;
   }
 });
 
@@ -25,26 +37,64 @@ lightStatus();
 
 async function lightStatus() {
   const status = await window.TPLINK.TPLightStatus();
+  const brigthness =
+    status.light_state.brightness == undefined
+      ? "off"
+      : status.light_state.brightness;
+  // console.log(brigthness);
+
+  document.querySelector("#SliderValue").innerHTML = brigthness;
+  document.querySelector("#switchSlider").value = brigthness;
   if (status.light_state.on_off == 1) {
-    console.log("ON");
+    // console.log("ON");
     document.querySelector("#switchOnOff").checked = true;
+    //add timer so user cant spam on-off
   } else {
-    console.log("OFF");
+    // console.log("OFF");
     document.querySelector("#switchOnOff").checked = false;
   }
 }
 
+document
+  .querySelector("#switchSlider")
+  .addEventListener("input", async (event) => {
+    const SliderValue = event.target.value;
+    document.querySelector("#SliderValue").innerHTML = SliderValue;
+
+    if ((done = await window.TPLINK.TPLightStatus())) {
+      brightness = parseInt(document.querySelector("#SliderValue").innerHTML);
+      // console.log(brightness);
+      window.TPLINK.TPLightOn(brightness);
+      // console.log("state-in-slider: ", done);
+      if (!cb.checked) {
+        cb.checked = true;
+      }
+    }
+  });
+
+document.querySelector("#switchSlider").addEventListener("change", async () => {
+  const done = await window.TPLINK.TPLightStatus();
+  brightness = parseInt(document.querySelector("#SliderValue").innerHTML);
+  // console.log(brightness);
+  if (done) window.TPLINK.TPLightOn(brightness);
+  // console.log("state-in-slider: ", done);
+  if (!cb.checked) {
+    cb.checked = true;
+  }
+});
+
 document.querySelector("#statusButton").addEventListener("click", async () => {
   const status = await window.TPLINK.TPLightStatus();
   const brigthness = status.light_state.brightness;
-  console.log(brigthness);
+  // console.log(brigthness);
   document.querySelector("#switchSlider").value = brigthness;
 });
-
-async function switchLightOff() {
-  console.log("light off, ", window.TPLINK.TPLightOff());
+function switchLightOff() {
+  window.TPLINK.TPLightOff();
+  // console.log("light off");
 }
 
-async function switchLightOn() {
-  console.log("light on, ", window.TPLINK.TPLightOn());
+function switchLightOn() {
+  window.TPLINK.TPLightOn();
+  // console.log("light on");
 }
