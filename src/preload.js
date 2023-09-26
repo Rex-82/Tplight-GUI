@@ -7,11 +7,10 @@
  */
 const { contextBridge } = require("electron");
 const TPLSmartDevice = require("tplink-lightbulb");
-
+const { Store } = require("electron-store");
 const { resolve } = require("path");
 const { config } = require("dotenv");
 config({ path: resolve(__dirname, "..", ".env") });
-
 
 contextBridge.exposeInMainWorld("TPLINK", {
   TPLightOn: (brightness) => {
@@ -48,5 +47,9 @@ contextBridge.exposeInMainWorld("TPLINK", {
           reject(error);
         });
     });
+  },
+
+  GetInfo: () => {
+    return process.env.LIGHT_IP;
   },
 });
