@@ -1,21 +1,31 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
+const Store = require("electron-store");
+const { resolve } = require("path");
+const { config } = require("dotenv");
+config({ path: resolve(__dirname, "..", ".env") });
 
-try {
-  require("electron-reloader")(module);
-} catch (_) {}
+const store = new Store();
+const env = process.env.NODE_ENV || "development";
 
+if (env === "development") {
+  try {
+    require("electron-reloader")(module);
+  } catch (_) {}
+}
 function createWindow() {
-  
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    title:"TP Light control panel",
+    title: "TPLightApp",
     alwaysOnTop: true,
+    maximizable: false,
     frame: true,
     autoHideMenuBar: true,
-    width: 600,
+    width: 425,
     height: 400,
+    minWidth: 425,
+    icon: "./src/assets/favicon-32x32.png",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
@@ -26,7 +36,7 @@ function createWindow() {
   mainWindow.loadFile("src/index.html");
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 }
 
 // This method will be called when Electron has finished
