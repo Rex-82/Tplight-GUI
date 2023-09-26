@@ -14,8 +14,6 @@ const cb = document.querySelector("#switchOnOff");
 
 document.querySelector("#switchOnOff").addEventListener("click", async () => {
   // console.log("is: ", cb.checked);
-  cb.disabled = true;
-  setTimeout((cb.disabled = false), 2000);
 
   const status = await window.TPLINK.TPLightStatus();
   const onoff = status.light_state.on_off;
@@ -34,6 +32,14 @@ document.querySelector("#switchOnOff").addEventListener("click", async () => {
 });
 
 lightStatus();
+deviceInfo();
+
+async function deviceInfo() {
+  const info = await window.TPLINK.TPLightStatus();
+  document.querySelector("#infoTabIP").innerHTML = window.TPLINK.GetInfo();
+  document.querySelector("#infoTabModel").innerHTML = info.model;
+  // document.querySelector("#infoTabDeviceId").innerHTML = info.deviceId;
+}
 
 async function lightStatus() {
   const status = await window.TPLINK.TPLightStatus();
@@ -98,3 +104,9 @@ function switchLightOn() {
   window.TPLINK.TPLightOn();
   // console.log("light on");
 }
+
+document.querySelector("#infoTabButton").addEventListener("click", () => {
+  document.querySelector("#openedArrow").classList.toggle("hidden");
+  document.querySelector("#closedArrow").classList.toggle("hidden");
+  document.querySelector("#infoTab").classList.toggle("hidden");
+});
