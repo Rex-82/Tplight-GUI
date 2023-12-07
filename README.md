@@ -84,7 +84,7 @@ Contributions are what make the open source community such an amazing place to b
 
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/Rex-82/Tplight-App/blob/main/LICENSE.md) for more information. [TODO]
+Distributed under the GNU GPLv3 License. See [LICENSE](https://github.com/Rex-82/Tplight-App/blob/main/LICENSE.md) for more information.
 
 ## Acknowledgements
 
